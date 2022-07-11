@@ -6,6 +6,7 @@ $json2 = '{"fields":[{"label":"Date of Birth (YYYY-MM-DD)","key":"birthday","isR
 
 $CreateForm = new CreateForm();
 $component = '';
+$allowedInputTypes = array('number','date','dropdown');
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   if (isset($_POST['drugJson']) && !empty($_POST['drugJson'])) {
@@ -26,13 +27,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (!empty($drugArray->fields)) {
 
     foreach ($drugArray->fields as $val) {
-
-      $html = $CreateForm->{$val->type}($val);
-      $component = $component . $html;
+      if(in_array($val->type, $allowedInputTypes)){
+        $html = $CreateForm->{$val->type}($val);
+        $component = $component . $html;
+      }
+      
     }
   }
 }
 ?>
+
+
+
+
+
+
+
 <html>
 <header>
   <style>
